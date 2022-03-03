@@ -1,4 +1,4 @@
-package flyable;
+package avaj_launcher.tower;
 
 public interface Flyable {
 
