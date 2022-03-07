@@ -1,10 +1,12 @@
 package avaj_launcher.tower;
-import avaj_launcher.aircrafts.Aircraft.Coordinates;
+import avaj_launcher.aircrafts.Coordinates;
 
 public class WeatherTower extends Tower {
 	public String getWeather(Coordinates coordinates) {
+		return (WeatherProvider.getProvider().getCurrentWeather(coordinates));
 	}
 
-	private void changeWeather() {
+	public void changeWeather() {
+		conditionsChanged();
 	}
 }
