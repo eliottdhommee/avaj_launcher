@@ -22,13 +22,24 @@ public class JetPlane extends Aircraft implements Flyable {
 		} else if (weather.equals("SNOW")) {
 			this.coordinates.setHeight(this.coordinates.getHeight() - 7);
 		}
+		AvajFile.updateToFile("JetPlane", this.name, Long.toString(this.id), weather, Integer.toString(this.coordinates.getHeight()));
 		if (this.coordinates.getHeight() <= 0) {
 			this.weatherTower.unregister(this);
+			AvajFile.writeToFile("Tower says: ");
+			writeId();
+			AvajFile.writeToFile(" unregistered from weather tower\n");
 		}
 	}
 
 	public void registerTower(WeatherTower weatherTower) {
 		this.weatherTower = weatherTower;
+		weatherTower.register(this);
+		AvajFile.writeToFile("Tower says: ");
+		writeId();
+		AvajFile.writeToFile(" registered to weather tower\n");
+	}
+
+	public void writeId() {
 		AvajFile.registerToFile("JetPlane", this.name, Long.toString(this.id));
 	}
 }

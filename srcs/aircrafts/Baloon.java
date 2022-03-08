@@ -10,7 +10,6 @@ public class Baloon extends Aircraft implements Flyable {
 		super(name, coordinates);
 	}
 
-	@Override
 	public void updateConditions() {
 		String weather = this.weatherTower.getWeather(this.coordinates);
 		if (weather.equals("SUN")) {
@@ -23,16 +22,25 @@ public class Baloon extends Aircraft implements Flyable {
 		} else if (weather.equals("SNOW")) {
 			this.coordinates.setHeight(this.coordinates.getHeight() - 15);
 		}
+		AvajFile.updateToFile("Baloon", this.name, Long.toString(this.id), weather, Integer.toString(this.coordinates.getHeight()));
 		if (this.coordinates.getHeight() <= 0) {
 			this.weatherTower.unregister(this);
-		AvajFile.updateToFile("Baloon", this.name, Long.toString(this.id), weather, Integer.toString(this.coordinates.getHeight()));
+			AvajFile.writeToFile("Tower says: ");
+			writeId();
+			AvajFile.writeToFile(" unregistered from weather tower\n");
 		}
 	}
 
-	@Override
 	public void registerTower(WeatherTower weatherTower) {
 		this.weatherTower = weatherTower;
 		weatherTower.register(this);
+		AvajFile.writeToFile("Tower says: ");
+		writeId();
+		AvajFile.writeToFile(" registered to weather tower\n");
+
+	}
+
+	public void writeId() {
 		AvajFile.registerToFile("Baloon", this.name, Long.toString(this.id));
 	}
 }

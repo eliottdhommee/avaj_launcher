@@ -38,13 +38,12 @@ public class AvajFile {
 	}
 
 	public static void updateToFile(String type, String name, String id, String weather, String height) {
-		writeToFile(type.concat("#").concat(name).concat("(").concat(id).concat(")").concat(weather).concat(height));
+		writeToFile(type.concat("#").concat(name).concat("(").concat(id).concat(")").concat(weather).concat(height).concat("\n"));
 	}
 
 	public static void writeToFile(String string) {
 		try {
 			myWriter.write(string);
-			myWriter.write("\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

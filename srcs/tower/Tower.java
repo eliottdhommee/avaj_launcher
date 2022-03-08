@@ -3,24 +3,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Tower {
-	private List<Flyable> observers ;
+	private List<Flyable> observers = new LinkedList<Flyable>() ;
+	private List<Flyable> toRemove = new LinkedList<Flyable>() ;
 
 	public void register(Flyable flyable) {
-		if (observers == null)
-			observers = new LinkedList();
-		this.observers.add(flyable);
+		observers.add(flyable);
 	}
 
 	public void unregister(Flyable flyable) {
-		if (this.observers.contains(flyable)) {
-			this.observers.remove(observers.indexOf(flyable));
-		}
+		toRemove.add(flyable);
 	}
 
 	protected void conditionsChanged() {
-		for (Flyable flyable : this.observers) {
+		for (Flyable flyable : observers) {
 			flyable.updateConditions();
 		}
+		observers.removeAll(toRemove);
 	}
 
 }
