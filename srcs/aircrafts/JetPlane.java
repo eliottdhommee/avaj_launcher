@@ -12,22 +12,39 @@ public class JetPlane extends Aircraft implements Flyable {
 
 	public void updateConditions() {
 		String weather = this.weatherTower.getWeather(this.coordinates);
-		if (weather.equals("SUN")) {
-			this.coordinates.setLatitude(this.coordinates.getLatitude() + 10);
-			this.coordinates.setHeight(this.coordinates.getHeight() + 2);
-		} else if (weather.equals("RAIN")) {
-			this.coordinates.setLatitude(this.coordinates.getLatitude() + 5);
-		} else if (weather.equals("FOG")) {
-			this.coordinates.setLatitude(this.coordinates.getLatitude() + 1);
-		} else if (weather.equals("SNOW")) {
-			this.coordinates.setHeight(this.coordinates.getHeight() - 7);
+		switch(weather) {
+
+			case "SUN":
+				this.updateCoordinates(0, 10, 2);
+				writeId();
+				AvajFile.writeToFile(" Too much light.\n");
+				break;
+
+			case "RAIN":
+				this.updateCoordinates(0, 5, 0);
+				writeId();
+				AvajFile.writeToFile(" It's raining. Better watch out for lightings.\n");
+				break;
+
+			case "FOG":
+				this.updateCoordinates(0, 1, 0);
+				writeId();
+				AvajFile.writeToFile(" Fog is here.\n");
+				break;
+
+			case "SNOW":
+				this.updateCoordinates(0, 0, -7);
+				writeId();
+				AvajFile.writeToFile(" OMG! Winter is coming!\n");
+				break;
 		}
-		AvajFile.updateToFile("JetPlane", this.name, Long.toString(this.id), weather, Integer.toString(this.coordinates.getHeight()));
 		if (this.coordinates.getHeight() <= 0) {
+			writeId();
+			writeLanding();
 			this.weatherTower.unregister(this);
 			AvajFile.writeToFile("Tower says: ");
 			writeId();
-			AvajFile.writeToFile(" unregistered from weather tower\n");
+			AvajFile.writeToFile(" unregistered from weather tower.\n");
 		}
 	}
 

@@ -12,22 +12,39 @@ public class Baloon extends Aircraft implements Flyable {
 
 	public void updateConditions() {
 		String weather = this.weatherTower.getWeather(this.coordinates);
-		if (weather.equals("SUN")) {
-			this.coordinates.setLongitude(this.coordinates.getLongitude() + 2);
-			this.coordinates.setHeight(this.coordinates.getHeight() + 4);
-		} else if (weather.equals("RAIN")) {
-			this.coordinates.setHeight(this.coordinates.getHeight() - 5);
-		} else if (weather.equals("FOG")) {
-			this.coordinates.setHeight(this.coordinates.getHeight() - 3);
-		} else if (weather.equals("SNOW")) {
-			this.coordinates.setHeight(this.coordinates.getHeight() - 15);
+		switch(weather) {
+
+			case "SUN":
+				this.updateCoordinates(2, 0, 4);
+				writeId();
+				AvajFile.writeToFile(" Let's enjoy the good weather and take some pics.\n");
+				break;
+
+			case "RAIN":
+				this.updateCoordinates(0, 0, -5);
+				writeId();
+				AvajFile.writeToFile(" Damn you rain! You messed up my baloon.\n");
+				break;
+
+			case "FOG":
+				this.updateCoordinates(0, 0, -3);
+				writeId();
+				AvajFile.writeToFile(" F***** fog! \n");
+				break;
+
+			case "SNOW":
+				this.updateCoordinates(0, 0, -15);
+				writeId();
+				AvajFile.writeToFile(" It's snowing. We're gonna crash.\n");
+				break;
 		}
-		AvajFile.updateToFile("Baloon", this.name, Long.toString(this.id), weather, Integer.toString(this.coordinates.getHeight()));
 		if (this.coordinates.getHeight() <= 0) {
+			writeId();
+			writeLanding();
 			this.weatherTower.unregister(this);
 			AvajFile.writeToFile("Tower says: ");
 			writeId();
-			AvajFile.writeToFile(" unregistered from weather tower\n");
+			AvajFile.writeToFile(" unregistered from weather tower.\n");
 		}
 	}
 
@@ -36,8 +53,7 @@ public class Baloon extends Aircraft implements Flyable {
 		weatherTower.register(this);
 		AvajFile.writeToFile("Tower says: ");
 		writeId();
-		AvajFile.writeToFile(" registered to weather tower\n");
-
+		AvajFile.writeToFile(" registered to weather tower.\n");
 	}
 
 	public void writeId() {
