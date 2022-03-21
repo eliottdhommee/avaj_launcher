@@ -6,7 +6,7 @@
 #    By: edhommee <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/04 12:27:37 by edhommee          #+#    #+#              #
-#    Updated: 2022/03/07 17:25:12 by edhommee         ###   ########.fr        #
+#    Updated: 2022/03/17 11:58:02 by edhommee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ FILE	= sources.txt
 MAIN	= avaj_launcher/Simulation
 ARG		= scenario.txt
 
-all: bin
+all: bins
 
-bin:$(BIN_DIR) $(FILE)
+bins: $(BIN_DIR) $(FILE)
 	javac @$(FILE) -d $(BIN_DIR)
 
 $(BIN_DIR):
@@ -28,7 +28,7 @@ $(BIN_DIR):
 $(FILE):
 	find $(SRC_DIR)* -name "*.java" > $(FILE)
 
-run: bin
+run: bins
 	java -classpath $(BIN_DIR) $(MAIN) $(ARG)
 
 re: clean all
